@@ -1,4 +1,5 @@
-import { getAllPosts, Post } from './posts';
+import { getAllPosts } from './posts';
+import type { Post } from '@/types/post';  // Import from types file
 
 export interface Tag {
   name: string;

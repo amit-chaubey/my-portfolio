@@ -5,6 +5,8 @@ import { Post } from '@/types/post';
 
 const postsDirectory = path.join(process.cwd(), 'src/content/posts');
 
+export type { Post };
+
 const NOTION_POSTS: Post[] = [
   {
     slug: 'skilled-worker-visa',
