@@ -4,6 +4,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Remove webpack config as it's causing issues
   trailingSlash: true,
 }
 

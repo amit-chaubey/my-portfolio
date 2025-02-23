@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+
 export default function SkilledWorkerVisaPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
@@ -13,7 +15,7 @@ export default function SkilledWorkerVisaPage() {
           href="https://pointed-name-caa.notion.site/Skilled-Worker-Visa-Guide-1a30e3a0a90280d5b708e9ccc741fca1"
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-600 hover:underline inline-block px-4 py-2 bg-blue-100 rounded"
+          className="text-blue-600 hover:underline"
         >
           Read the full guide on Notion →
         </a>
