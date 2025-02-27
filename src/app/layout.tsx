@@ -1,15 +1,22 @@
+import './globals.css';
+import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import '../styles/globals.css';
+import { ThemeProvider } from '@/components/ThemeProvider';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-import { ThemeProvider } from '@/components/ThemeProvider';
+import { ChatWidget } from '@/components/chat/ChatWidget';
 
 const inter = Inter({ subsets: ['latin'] });
+
+export const metadata: Metadata = {
+  title: 'Amit Chaubey - Portfolio',
+  description: 'Personal portfolio and blog of Amit Chaubey',
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -28,6 +35,7 @@ export default function RootLayout({
               </div>
             </main>
             <Footer />
+            <ChatWidget />
           </div>
         </ThemeProvider>
       </body>

@@ -17,6 +17,7 @@ export default function Header() {
             <Link href="/posts" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Posts</Link>
             <Link href="/tags" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Tags</Link>
             <Link href="/about" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About Me</Link>
+            <Link href="/resources" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Resources</Link>
             <button className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
               <span className="sr-only">Search</span>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
