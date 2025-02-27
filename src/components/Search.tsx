@@ -26,6 +26,7 @@ export default function Search() {
       <button
         type="submit"
         className="absolute right-2 top-1/2 transform -translate-y-1/2"
+        aria-label="Search"
       >
         <svg
           className="w-4 h-4 text-gray-500"
