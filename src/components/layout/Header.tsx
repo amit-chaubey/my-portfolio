@@ -1,33 +1,38 @@
 'use client';
 import Link from 'next/link';
-import ThemeToggle from '../common/ThemeToggle';
+import { ModeToggle } from '../../components/ModeToggle';
+import Search from '@/components/Search';
 
 export default function Header() {
   return (
-    <header className="py-4 sticky top-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm z-50">
-      <nav className="max-w-3xl mx-auto px-4">
-        <div className="flex justify-between items-center">
-          <Link 
-            href="/" 
-            className="text-2xl font-bold hover:underline decoration-green-500 decoration-2 transition-all"
-          >
-            Amit Chaubey
+    <header className="sticky top-0 z-10 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-14 max-w-screen-2xl items-center justify-between px-4">
+        <div className="flex items-center">
+          <Link href="/" className="flex items-center space-x-2">
+            <span className="text-xl font-bold">Amit Chaubey</span>
           </Link>
-          <div className="flex items-center gap-8">
-            <Link href="/posts" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Posts</Link>
-            <Link href="/tags" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Tags</Link>
-            <Link href="/about" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About Me</Link>
-            <Link href="/resources" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Resources</Link>
-            <button className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-              <span className="sr-only">Search</span>
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </button>
-            <ThemeToggle />
-          </div>
         </div>
-      </nav>
+        
+        <nav className="hidden md:flex items-center space-x-8">
+          <Link href="/posts" className="text-base font-medium hover:text-foreground/80">
+            Posts
+          </Link>
+          <Link href="/tags" className="text-base font-medium hover:text-foreground/80">
+            Tags
+          </Link>
+          <Link href="/about" className="text-base font-medium hover:text-foreground/80">
+            About Me
+          </Link>
+          <Link href="/resources" className="text-base font-medium hover:text-foreground/80">
+            Resources
+          </Link>
+        </nav>
+
+        <div className="flex items-center space-x-4">
+          <Search />
+          <ModeToggle />
+        </div>
+      </div>
     </header>
   );
 }
