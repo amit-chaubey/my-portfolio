@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link';
-import { ModeToggle } from '../../components/ModeToggle';
+import { ModeToggle } from '@/components/ModeToggle';
 import Search from '@/components/Search';
 
 export default function Header() {
