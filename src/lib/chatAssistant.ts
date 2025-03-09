@@ -1,10 +1,4 @@
-import OpenAI from 'openai';
 import { LRUCache } from 'lru-cache';
-
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
 
 // Cache configuration
 const cache = new LRUCache<string, string>({
@@ -28,6 +22,9 @@ You should provide concise, informative responses about:
 - Full-stack development expertise with AI integration
 - Notable projects and achievements
 Keep responses professional and under 100 words.`;
+
+// Initialize OpenAI client lazily to avoid build errors
+let openai: any = null;
 
 /**
  * Generates an answer to a user question using OpenAI's API
@@ -64,6 +61,18 @@ export async function generateAnswer(question: string): Promise<string> {
   console.log(`Rate limit tokens remaining: ${tokens}`);
 
   try {
+    // Initialize OpenAI client if not already initialized
+    if (!openai) {
+      if (!process.env.OPENAI_API_KEY) {
+        throw new Error('OPENAI_API_KEY environment variable is missing');
+      }
+      
+      const { default: OpenAI } = await import('openai');
+      openai = new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY,
+      });
+    }
+    
     console.log('Calling OpenAI API...');
     const completion = await openai.chat.completions.create({
       model: 'gpt-3.5-turbo',
@@ -84,9 +93,12 @@ export async function generateAnswer(question: string): Promise<string> {
 
   } catch (error: any) {
     console.error('Error calling OpenAI API:', error);
-    if (error.code === 'insufficient_quota') {
-      throw new Error('Service temporarily unavailable. Please try again later.');
+    if (error.message.includes('OPENAI_API_KEY')) {
+      return 'The AI assistant is currently unavailable. Please try again later.';
     }
-    throw new Error('Failed to generate response. Please try again.');
+    if (error.code === 'insufficient_quota') {
+      return 'Service temporarily unavailable. Please try again later.';
+    }
+    return 'Failed to generate response. Please try again.';
   }
 }
