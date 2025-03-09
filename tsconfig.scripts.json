@@ -13,16 +13,28 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"]
     },
-    "lib": ["es2017", "esnext.asynciterable"],
+    "lib": [
+      "es2017",
+      "esnext.asynciterable",
+      "dom"
+    ],
     "outDir": "dist",
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
     "incremental": true
   },
-  "include": ["scripts/**/*"],
-  "exclude": ["node_modules"],
+  "include": [
+    "scripts/**/*",
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next",
+    "dist"
+  ],
   "ts-node": {
     "transpileOnly": true,
     "compilerOptions": {
