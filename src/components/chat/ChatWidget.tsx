@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ChatBubble } from './ChatBubble';
 
 export function ChatWidget() {
@@ -9,29 +9,63 @@ export function ChatWidget() {
     { role: 'assistant', content: 'Hi! I can help you navigate the site or answer questions about the content. What would you like to know?' }
   ]);
   const [input, setInput] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Debug: Log messages whenever they change
+  useEffect(() => {
+    console.log('Messages state updated:', messages);
+  }, [messages]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!input.trim()) return;
+    if (!input.trim() || isLoading) return;
+    
+    const questionText = input.trim();
+    setInput('');
+    setIsLoading(true);
     
     // Add user message
-    setMessages(prev => [...prev, { role: 'user', content: input }]);
-    
-    // Clear input
-    setInput('');
+    const newMessages = [
+      ...messages,
+      { role: 'user', content: questionText }
+    ];
+    setMessages(newMessages);
     
     try {
-      const res = await fetch('/api/ai-assistant', {
+      console.log('Sending request to API with question:', questionText);
+      
+      const response = await fetch('/api/ai-assistant', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: input }),
+        body: JSON.stringify({ question: questionText }),
       });
-
-      const data = await res.json();
-
-      setMessages(prev => [...prev, { role: 'assistant', content: data.answer }]);
+      
+      console.log('API response status:', response.status);
+      
+      if (!response.ok) {
+        throw new Error(`API responded with status ${response.status}`);
+      }
+      
+      const data = await response.json();
+      console.log('Received response from API:', data);
+      
+      // Add assistant response
+      if (data.answer) {
+        setMessages([
+          ...newMessages,
+          { role: 'assistant', content: data.answer }
+        ]);
+      } else {
+        throw new Error('No answer in response');
+      }
     } catch (error) {
-      setMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, something went wrong. Please try again.' }]);
+      console.error('Error in chat request:', error);
+      setMessages([
+        ...newMessages,
+        { role: 'assistant', content: 'Sorry, something went wrong. Please try again.' }
+      ]);
+    } finally {
+      setIsLoading(false);
     }
   };
 

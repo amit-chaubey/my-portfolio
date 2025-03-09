@@ -1,40 +1,53 @@
 import { getAllPosts, getPostBySlug } from '@/lib/posts';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { formatDate } from '@/lib/utils';
+import { Metadata } from 'next';
 
-export async function generateStaticParams() {
-  const posts = await getAllPosts();
-  return posts.map((post) => ({ slug: post.slug }));
-}
+// Define the params type separately
+type PostParams = {
+  slug: string;
+};
 
-interface PostPageProps {
-  params: {
-    slug: string;
+// Define the props type for the page component
+type Props = {
+  params: PostParams;
+  searchParams?: { [key: string]: string | string[] | undefined };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const post = await getPostBySlug(params.slug);
+  if (!post) {
+    return {
+      title: 'Post Not Found'
+    };
+  }
+  return {
+    title: post.title,
+    description: post.excerpt,
   };
 }
 
-export default async function PostPage({ params }: PostPageProps) {
-  const post = await getPostBySlug(params.slug);
+export async function generateStaticParams(): Promise<PostParams[]> {
+  const posts = await getAllPosts();
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+}
 
+export default async function PostPage({ params }: Props) {
+  const post = await getPostBySlug(params.slug);
+  
   if (!post) {
-    return (
-      <div className="max-w-3xl mx-auto px-4">
-        <h1 className="text-2xl font-bold">Post not found</h1>
-      </div>
-    );
+    return <div>Post not found</div>;
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4">
-      <article className="prose dark:prose-invert prose-slate max-w-none">
-        <h1 className="text-gray-900 dark:text-gray-100">{post.title}</h1>
-        <div className="text-sm text-gray-600 dark:text-gray-400">
-          {formatDate(post.date)}
-        </div>
-        <div className="text-gray-800 dark:text-gray-200">
-          <MDXRemote source={post.content} />
-        </div>
-      </article>
-    </div>
+    <article className="prose dark:prose-invert mx-auto">
+      <h1>{post.title}</h1>
+      <div className="text-gray-500 mb-8">
+        {formatDate(post.date)}
+      </div>
+      <MDXRemote source={post.content} />
+    </article>
   );
-} 
+}
