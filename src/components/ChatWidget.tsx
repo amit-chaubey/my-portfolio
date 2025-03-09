@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { MessageCircle, X, Send, Loader2 } from 'lucide-react';
+import { MessageCircle, X, Send, Loader2, AlertCircle } from 'lucide-react';
 
 interface ChatMessage {
   type: 'user' | 'assistant';
@@ -16,6 +16,44 @@ export default function ChatWidget() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isStaticBuild, setIsStaticBuild] = useState(false);
+
+  // Check if we're in a static build environment
+  useEffect(() => {
+    // Add a welcome message when the chat is first opened
+    if (messages.length === 0) {
+      setMessages([
+        {
+          type: 'assistant',
+          content: 'Hi there! How can I help you today?',
+          timestamp: new Date()
+        }
+      ]);
+    }
+
+    // Check if we're in a static build by making a test request
+    const checkEnvironment = async () => {
+      try {
+        const res = await fetch('/api/ai-assistant', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: 'test' })
+        });
+        
+        const data = await res.json();
+        
+        // If we get a static fallback message, we're in a static build
+        if (data.answer && data.answer.includes('available only in the development environment')) {
+          setIsStaticBuild(true);
+        }
+      } catch (error) {
+        console.error('Error checking environment:', error);
+        setIsStaticBuild(true); // Assume static build if there's an error
+      }
+    };
+    
+    checkEnvironment();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,6 +69,20 @@ export default function ChatWidget() {
     setQuestion('');
     setLoading(true);
     setError(null);
+
+    // If we're in a static build, show a message about limited functionality
+    if (isStaticBuild) {
+      setTimeout(() => {
+        const assistantMessage: ChatMessage = {
+          type: 'assistant',
+          content: 'I\'m sorry, the AI assistant is only available in the development environment. This is a static build of the website.',
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev, assistantMessage]);
+        setLoading(false);
+      }, 1000);
+      return;
+    }
 
     try {
       const res = await fetch('/api/ai-assistant', {
@@ -78,6 +130,14 @@ export default function ChatWidget() {
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             className="absolute bottom-16 right-0 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-xl overflow-hidden"
           >
+            {/* Static build warning */}
+            {isStaticBuild && (
+              <div className="bg-yellow-100 dark:bg-yellow-800 p-2 text-yellow-800 dark:text-yellow-200 text-xs flex items-center">
+                <AlertCircle size={16} className="mr-1" />
+                Limited functionality in static build
+              </div>
+            )}
+            
             {/* Chat messages */}
             <div className="h-96 overflow-y-auto p-4 space-y-4">
               {messages.map((msg, index) => (
