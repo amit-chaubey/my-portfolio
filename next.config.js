@@ -1,11 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  images: {
-    unoptimized: true,
+  experimental: {
+    mdxRs: true,
   },
-  // Remove webpack config as it's causing issues
-  trailingSlash: true,
+  reactStrictMode: true,
 }
 
-module.exports = nextConfig 
+module.exports = nextConfig

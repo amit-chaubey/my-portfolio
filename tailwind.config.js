@@ -5,6 +5,10 @@ module.exports = {
   ],
   theme: {
     extend: {
+      colors: {
+        background: 'hsl(var(--background))',
+        foreground: 'hsl(var(--foreground))',
+      },
       animation: {
         'fade-in': 'fadeIn 0.5s ease-out',
         'wave': 'wave 1.5s infinite',

@@ -20,13 +20,19 @@ export function ChatWidget() {
     // Clear input
     setInput('');
     
-    // Simulate response (replace with actual API call)
-    setTimeout(() => {
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: 'This is a placeholder response. The actual AI integration will be implemented soon.' 
-      }]);
-    }, 1000);
+    try {
+      const res = await fetch('/api/ai-assistant', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: input }),
+      });
+
+      const data = await res.json();
+
+      setMessages(prev => [...prev, { role: 'assistant', content: data.answer }]);
+    } catch (error) {
+      setMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, something went wrong. Please try again.' }]);
+    }
   };
 
   return (
