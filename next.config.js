@@ -23,6 +23,14 @@ const nextConfig = {
     
     return config;
   },
+  // Configure for static exports
+  output: 'export',
+  // Disable image optimization for static export
+  images: {
+    unoptimized: true,
+  },
+  // Disable trailing slash for static export
+  trailingSlash: true,
 }
 
 module.exports = nextConfig
