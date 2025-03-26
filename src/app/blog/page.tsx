@@ -25,17 +25,19 @@ export default async function BlogPage() {
             <p className="text-gray-700 dark:text-gray-300">
               {post.excerpt}
             </p>
-            <div className="flex gap-2">
-              {post.tags.map((tag) => (
-                <Link
-                  key={tag}
-                  href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
-                  className="text-sm px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                >
-                  {tag}
-                </Link>
-              ))}
-            </div>
+            {post.tags && post.tags.length > 0 ? (
+              <div className="flex gap-2">
+                {post.tags.map((tag) => (
+                  <Link
+                    key={tag}
+                    href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+                    className="text-sm px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    {tag}
+                  </Link>
+                ))}
+              </div>
+            ) : null}
           </article>
         ))}
       </div>
