@@ -1,11 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function Search() {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
+  const [mounted, setMounted] = useState(false);
+
+  // Protect against hydration errors
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const onSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -13,6 +19,17 @@ export default function Search() {
       router.push(`/search?q=${encodeURIComponent(searchQuery)}`);
     }
   };
+
+  if (!mounted) {
+    // Return a placeholder during server rendering
+    return (
+      <div className="relative w-64">
+        <div className="w-full px-4 py-2 text-sm border rounded-md">
+          Search...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={onSearch} className="relative w-64">
@@ -22,6 +39,7 @@ export default function Search() {
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
         className="w-full px-4 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700"
+        suppressHydrationWarning
       />
       <button
         type="submit"

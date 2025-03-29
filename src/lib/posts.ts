@@ -1,96 +1,81 @@
+import { serialize } from 'next-mdx-remote/serialize';
 import fs from 'fs';
 import path from 'path';
-
-// Dynamically import modules with fallbacks
-let matter: any;
-let serialize: any;
-
-try {
-  matter = require('gray-matter');
-} catch (error) {
-  // Fallback implementation if gray-matter is not available
-  matter = (content: string) => {
-    // Simple fallback that extracts YAML frontmatter between --- markers
-    const frontMatterRegex = /^---\s*\n([\s\S]*?)\n---\s*\n([\s\S]*)$/;
-    const match = content.match(frontMatterRegex);
-    
-    if (!match) {
-      return { data: {}, content };
-    }
-    
-    try {
-      // Very basic YAML parsing (only handles simple key-value pairs)
-      const yamlStr = match[1];
-      const data: Record<string, any> = {};
-      
-      yamlStr.split('\n').forEach(line => {
-        const [key, ...valueParts] = line.split(':');
-        if (key && valueParts.length) {
-          const value = valueParts.join(':').trim();
-          // Remove quotes if present
-          data[key.trim()] = value.replace(/^["'](.*)["']$/, '$1');
-        }
-      });
-      
-      return { data, content: match[2] };
-    } catch (e) {
-      console.error('Error parsing frontmatter:', e);
-      return { data: {}, content };
-    }
-  };
-}
-
-try {
-  serialize = require('next-mdx-remote/serialize').serialize;
-} catch (error) {
-  // Simple fallback if serialize is not available
-  serialize = async (content: string) => content;
-}
+import matter from 'gray-matter';
 
 const postsDirectory = path.join(process.cwd(), 'src/content/posts');
 
 export interface Post {
   slug: string;
   title: string;
-  date: string;
-  content: any; // MDX content type
+  date: string | Date; // Allow both string and Date
+  content?: any; // Make content optional since getAllPosts doesn't include it
   excerpt?: string;
   tags?: string[];
 }
 
 export async function getAllPosts(): Promise<Post[]> {
   try {
-    const fileNames = fs.readdirSync(postsDirectory);
+    if (!fs.existsSync(postsDirectory)) {
+      console.log(`Directory not found: ${postsDirectory}`);
+      return [];
+    }
+
+    const filenames = fs.readdirSync(postsDirectory);
     const posts = await Promise.all(
-      fileNames.map(async (fileName) => {
-        const slug = fileName.replace(/\.mdx$/, '');
-        return getPostBySlug(slug);
+      filenames.filter(filename => {
+        return filename.endsWith('.mdx') || filename.endsWith('.md');
+      }).map(async filename => {
+        const slug = filename.replace(/\.mdx?$/, '');
+        const fullPath = path.join(postsDirectory, filename);
+        const fileContents = fs.readFileSync(fullPath, 'utf8');
+        const { data } = matter(fileContents);
+
+        return {
+          slug,
+          title: data.title,
+          date: new Date(data.date),
+          excerpt: data.excerpt,
+          tags: data.tags || [],
+        };
       })
     );
 
-    return posts
-      .filter((post): post is Post => post !== null)
-      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    // Sort posts by date
+    return posts.sort((a, b) => b.date.getTime() - a.date.getTime());
   } catch (error) {
-    console.error('Error getting all posts:', error);
+    console.error('Error loading all posts:', error);
     return [];
   }
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
+  const fullPath = path.join(postsDirectory, `${slug}.mdx`);
+
   try {
-    const fullPath = path.join(postsDirectory, `${slug}.mdx`);
+    if (!fs.existsSync(fullPath)) {
+      console.log(`File not found: ${fullPath}`);
+      return null;
+    }
+
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const { data, content } = matter(fileContents);
-    const mdxSource = await serialize(content);
+
+    // Temporarily simplify by just sending the raw content for debugging
+    // const mdxSource = await serialize(content, {
+    //   parseFrontmatter: false, // We've already parsed it with gray-matter
+    //   mdxOptions: {
+    //     development: process.env.NODE_ENV === 'development',
+    //   },
+    // });
 
     return {
       slug,
-      content: mdxSource,
-      title: data.title || 'Untitled',
-      date: data.date || new Date().toISOString(),
-      excerpt: data.excerpt || '',
+      title: data.title,
+      date: new Date(data.date).toISOString(),
+      excerpt: data.excerpt,
       tags: data.tags || [],
+      content: content, // Raw content as a string
     };
   } catch (error) {
     console.error(`Error loading post ${slug}:`, error);
