@@ -20,13 +20,13 @@ export default async function BlogPage() {
               </Link>
             </h2>
             <div className="text-sm text-gray-600 dark:text-gray-400">
-              {formatDate(post.date)}
+              {formatDate(typeof post.date === 'string' ? post.date : post.date.toISOString())}
             </div>
             <p className="text-gray-700 dark:text-gray-300">
               {post.excerpt}
             </p>
             <div className="flex gap-2">
-              {post.tags.map((tag) => (
+              {(post.tags || []).map((tag) => (
                 <Link
                   key={tag}
                   href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}

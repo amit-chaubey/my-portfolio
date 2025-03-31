@@ -1,0 +1,141 @@
+---
+title: "Essential Linux Commands for Kubernetes Practitioners"
+date: "2025-03-31"
+excerpt: "While learning Kubernetes, I discovered these Linux commands are used constantly for file handling, debugging, and automation."
+tags: ["Linux", "Kubernetes", "DevOps", "CLI"]
+---
+
+# Essential Linux Commands for Kubernetes Practitioners
+
+When working with Kubernetes, you'll often need to manipulate files, inspect logs, or debug containers using Linux commands. Here are the most frequently used ones I've encountered:
+
+## 1. File Navigation & Inspection
+
+### `pwd` - Know Where You Are
+```bash
+pwd
+# Output: /home/user/k8s-configs
+```
+
+### `ls` - List Files Like a Pro
+```bash
+ls -lha /etc/kubernetes/  # Check Kubernetes config files
+# -l = long format, -h = human-readable, -a = show hidden
+```
+
+### `find` - Locate Files Quickly
+```bash
+find /var/log -name "*.log" -mtime -7  # Find recent logs
+```
+
+## 2. File Manipulation
+
+### `cat`/`less` - View File Contents
+```bash
+cat deployment.yaml       # Quick view
+less /var/log/syslog      # Paginated view (press 'q' to quit)
+```
+
+### `grep` - The Search Ninja
+```bash
+grep -r "image:" ./k8s/   # Find all container images in YAMLs
+grep -i "error" /var/log/containers/*  # Case-insensitive error search
+```
+
+### `jq` - JSON Wizardry (for K8s API responses)
+```bash
+kubectl get pods -o json | jq '.items[].metadata.name'
+```
+
+## 3. File Operations
+
+### `curl` - API & File Downloads
+```bash
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+```
+
+### `tar` - Handle Archives
+```bash
+tar -xzvf helm-v3.12.0-linux-amd64.tar.gz  # Extract Helm
+```
+
+### `diff` - Compare Files
+```bash
+diff -u old-deployment.yaml new-deployment.yaml
+```
+
+## 4. System & Process Management
+
+### `ps` - Process Inspection
+```bash
+ps aux | grep kubelet  # Check if kubelet is running
+```
+
+### `top`/`htop` - Resource Monitoring
+```bash
+htop  # Interactive process viewer (install with `apt install htop`)
+```
+
+## 5. Networking
+
+### `netstat`/`ss` - Port Checking
+```bash
+ss -tulnp | grep 6443  # Check if Kubernetes API port is open
+```
+
+### `dig`/`nslookup` - DNS Debugging
+```bash
+dig +short my-svc.default.svc.cluster.local  # Debug K8s DNS
+```
+
+## 6. Permission Management
+
+### `chmod` - Make Scripts Executable
+```bash
+chmod +x install-k8s-tools.sh
+```
+
+### `sudo` - When You Need Superpowers
+```bash
+sudo systemctl restart kubelet  # Requires root
+```
+
+## Practical Examples
+
+### 1. Base64 for Kubernetes Secrets
+```bash
+# Encode
+echo -n "secret-data" | base64
+# Decode
+echo "c2VjcmV0LWRhdGE=" | base64 --decode
+```
+
+### 2. Bulk Rename K8s Configs
+```bash
+for file in *.yaml; do mv "$file" "k8s-$file"; done
+```
+
+### 3. Count Running Pods from Logs
+```bash
+kubectl get pods | grep Running | wc -l
+```
+
+## Pro Tips
+
+1. **Chain commands** with `|` (pipe):
+   ```bash
+   cat /var/log/pods/* | grep "OOMKilled" | wc -l
+   ```
+
+2. **Redirect outputs**:
+   ```bash
+   kubectl describe node > node-details.txt 2>&1
+   ```
+
+3. **Use `watch` for real-time monitoring**:
+   ```bash
+   watch -n 2 'kubectl get pods | grep Pending'
+   ```
+
+> **Key Takeaway**: Kubernetes runs on Linux. Mastering these commands will make you 10x more effective at debugging and automation.
+```
