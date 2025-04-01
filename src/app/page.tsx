@@ -45,7 +45,7 @@ export default function HomePage() {
             <a href="https://linkedin.com/in/amit-choubey-51296960" className="text-gray-600 hover:text-black dark:text-gray-400 dark:hover:text-white">
               LinkedIn
             </a>
-            <a href="mailto:your.email@example.com" className="text-gray-600 hover:text-black dark:text-gray-400 dark:hover:text-white">
+            <a href="mailto:amit.katyayana@gmail.com" className="text-gray-600 hover:text-black dark:text-gray-400 dark:hover:text-white">
               Email
             </a>
           </div>
@@ -58,7 +58,7 @@ export default function HomePage() {
           <article>
             <h3 className="text-lg font-normal">
               <a href="#" className="text-blue-600 hover:underline">
-                Wikipedia Learning Agent for SEND Children
+                Wikipedia Learning Agent for SEND Children - watch this space 🚧
               </a>
             </h3>
             <p className="text-gray-600 mt-1">
@@ -69,7 +69,7 @@ export default function HomePage() {
           <article>
             <h3 className="text-lg font-normal">
               <a href="#" className="text-blue-600 hover:underline">
-                Enterprise RAG Research Platform
+                Enterprise RAG Research Platform - watch this space 🚧
               </a>
             </h3>
             <p className="text-gray-600 mt-1">
