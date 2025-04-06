@@ -42,6 +42,9 @@ export default function HomePage() {
             <a href="https://github.com/amit-chaubey" className="text-gray-600 hover:text-black dark:text-gray-400 dark:hover:text-white">
               GitHub
             </a>
+            <a href="https://huggingface.co/sweatSmile" className="text-gray-600 hover:text-black dark:text-gray-400 dark:hover:text-white">
+              Hugging Face
+            </a>
             <a href="https://linkedin.com/in/amit-choubey-51296960" className="text-gray-600 hover:text-black dark:text-gray-400 dark:hover:text-white">
               LinkedIn
             </a>
