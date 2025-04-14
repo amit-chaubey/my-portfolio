@@ -13,6 +13,15 @@ interface Project {
 
 const projects: Project[] = [
   {
+    title: "SEND Schools Dashboard",
+    description: "A real-time performance dashboard for SEND (Special Educational Needs and Disabilities) schools that transforms how educators track progress, celebrate achievements, and identify support needs. This platform brings personalized, data-driven insights to special education, enhancing student motivation and educational outcomes.",
+    liveUrl: "https://school-student-dashboard.netlify.app/",
+    codeUrl: "https://github.com/amit-chaubey/send-dashboard",
+    technologies: ["Next.js 14", "TypeScript", "Tailwind CSS", "Cookies-next"],
+    gradientFrom: "from-blue-500",
+    gradientTo: "to-indigo-600"
+  },
+  {
     title: "Movie Recommendation System",
     description: "A Python-based recommendation engine that suggests movies based on user preferences using collaborative filtering and machine learning algorithms.",
     comingSoon: true,
@@ -73,6 +82,35 @@ export default function ProjectsPage() {
                   <div className="flex items-center space-x-1">
                     <span className="text-emerald-500">🌓</span>
                     <span className="text-xs">Glass-morphism UI</span>
+                  </div>
+                </div>
+              )}
+              
+              {project.title === "SEND Schools Dashboard" && (
+                <div className="mb-4 grid grid-cols-2 gap-1">
+                  <div className="flex items-center space-x-1">
+                    <span className="text-blue-500">👨‍🎓</span>
+                    <span className="text-xs">Student Management</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <span className="text-blue-500">🎯</span>
+                    <span className="text-xs">Weekly Target Tracking</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <span className="text-blue-500">🏆</span>
+                    <span className="text-xs">Achievement Badges</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <span className="text-blue-500">📊</span>
+                    <span className="text-xs">Performance Reports</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <span className="text-blue-500">🌙</span>
+                    <span className="text-xs">Dark Mode Support</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <span className="text-blue-500">📱</span>
+                    <span className="text-xs">Responsive Design</span>
                   </div>
                 </div>
               )}
