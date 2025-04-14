@@ -15,6 +15,14 @@ export default function ResourcesPage() {
           description="Fundamentals, algorithms, and practical implementations"
           resources={[
             {
+              title: "Agentic Patterns for RAG",
+              description: "Learn how to enhance Retrieval-Augmented Generation systems with agency and decision-making capabilities",
+              difficulty: "Intermediate",
+              estimatedTime: "30 minutes",
+              tags: ["RAG", "LLMs", "AI Agents", "NLP"],
+              link: "/resources/retrieval-augmented-generation"
+            },
+            {
               title: "Introduction to Machine Learning",
               description: "Learn the basics of machine learning algorithms and concepts",
               difficulty: "Beginner",
