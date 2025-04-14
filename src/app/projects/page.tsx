@@ -22,6 +22,15 @@ const projects: Project[] = [
     gradientTo: "to-indigo-600"
   },
   {
+    title: "Marx-OPT Conversational Model",
+    description: "A fine-tuned language model built on facebook/opt-350m optimized for dialogue-style Q&A on political and philosophical topics. The model was trained on a custom dataset of question-answer pairs focusing on Marxist theory, history, and related political contexts.",
+    liveUrl: "https://huggingface.co/sweatSmile/marx-opt350m-finetuned-v1",
+    codeUrl: "https://huggingface.co/sweatSmile/marx-dataset",
+    technologies: ["PyTorch", "Transformers", "Hugging Face", "TRL"],
+    gradientFrom: "from-orange-500",
+    gradientTo: "to-red-500"
+  },
+  {
     title: "Movie Recommendation System",
     description: "A Python-based recommendation engine that suggests movies based on user preferences using collaborative filtering and machine learning algorithms.",
     comingSoon: true,
@@ -111,6 +120,35 @@ export default function ProjectsPage() {
                   <div className="flex items-center space-x-1">
                     <span className="text-blue-500">📱</span>
                     <span className="text-xs">Responsive Design</span>
+                  </div>
+                </div>
+              )}
+              
+              {project.title === "Marx-OPT Conversational Model" && (
+                <div className="mb-4 grid grid-cols-2 gap-1">
+                  <div className="flex items-center space-x-1">
+                    <span className="text-orange-500">🤖</span>
+                    <span className="text-xs">Dialogue-style QA</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <span className="text-orange-500">📚</span>
+                    <span className="text-xs">Political Topics</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <span className="text-orange-500">📊</span>
+                    <span className="text-xs">ROUGE-L Score: 0.53</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <span className="text-orange-500">⚙️</span>
+                    <span className="text-xs">331M Parameters</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <span className="text-orange-500">🔄</span>
+                    <span className="text-xs">5 Training Epochs</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <span className="text-orange-500">⬇️</span>
+                    <span className="text-xs">Ready for Download</span>
                   </div>
                 </div>
               )}
