@@ -1,6 +1,5 @@
 'use client';
 
-import { ResourceCard } from '@/components/resources/ResourceCard';
 import { ResourceTrack } from '@/components/resources/ResourceTrack';
 
 export default function ResourcesPage() {

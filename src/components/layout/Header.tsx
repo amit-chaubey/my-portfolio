@@ -26,6 +26,9 @@ export default function Header() {
           <Link href="/resources" className="text-base font-medium hover:text-foreground/80">
             Resources
           </Link>
+          <Link href="/hub" className="text-base font-medium hover:text-foreground/80">
+            Research Hub
+          </Link>
         </nav>
 
         <div className="flex items-center space-x-4">
