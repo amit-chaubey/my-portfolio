@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { FiExternalLink, FiSearch, FiFilter, FiGithub, FiBookOpen, FiCode, FiDatabase, FiPenTool, FiLink } from 'react-icons/fi';
 
 interface QuickLink {
@@ -84,17 +84,73 @@ const getIconComponent = (iconName: QuickLink['iconName']) => {
 };
 
 export default function QuickLinksPage() {
+  const [mounted, setMounted] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [isSearching, setIsSearching] = useState(false);
 
-  const filteredLinks = quickLinks.filter(link => {
-    const matchesSearch = link.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      link.description.toLowerCase().includes(searchQuery.toLowerCase());
+  // Handle hydration
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Debounce search query
+  useEffect(() => {
+    if (!mounted) return;
     
-    const matchesCategory = selectedCategory === 'All' || link.category === selectedCategory;
+    setIsSearching(true);
+    const timer = setTimeout(() => {
+      setDebouncedSearch(searchQuery);
+      setIsSearching(false);
+    }, 300);
+
+    return () => {
+      clearTimeout(timer);
+      setIsSearching(false);
+    };
+  }, [searchQuery, mounted]);
+
+  // Memoize filtered results
+  const filteredLinks = useMemo(() => {
+    if (!mounted) return quickLinks;
+
+    const searchTerms = debouncedSearch.toLowerCase().split(' ').filter(Boolean);
     
-    return matchesSearch && matchesCategory;
-  });
+    return quickLinks.filter(link => {
+      // If no search terms and no category filter, show all
+      if (searchTerms.length === 0 && selectedCategory === 'All') {
+        return true;
+      }
+
+      // Check if all search terms match any field
+      const matchesSearch = searchTerms.length === 0 || searchTerms.every(term =>
+        link.title.toLowerCase().includes(term) ||
+        link.description.toLowerCase().includes(term) ||
+        link.category.toLowerCase().includes(term)
+      );
+      
+      // Check category filter
+      const matchesCategory = selectedCategory === 'All' || link.category === selectedCategory;
+      
+      return matchesSearch && matchesCategory;
+    });
+  }, [debouncedSearch, selectedCategory, mounted]);
+
+  const handleClearSearch = () => {
+    setSearchQuery('');
+    setSelectedCategory('All');
+  };
+
+  // Handle hydration mismatch
+  if (!mounted) {
+    return (
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
+        <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">Quick Links</h1>
+        <p className="mb-8 text-gray-600 dark:text-gray-300">Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
@@ -104,14 +160,23 @@ export default function QuickLinksPage() {
       {/* Search and Filter Bar */}
       <div className="flex flex-col md:flex-row gap-4 mb-8">
         <div className="relative flex-grow">
-          <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+          <FiSearch className={`absolute left-3 top-1/2 transform -translate-y-1/2 ${isSearching ? 'text-blue-500' : 'text-gray-400'}`} />
           <input
             type="text"
-            placeholder="Search links..."
+            placeholder="Search by title, description, or category..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full pl-10 pr-12 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
+          {searchQuery && (
+            <button
+              onClick={handleClearSearch}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+              aria-label="Clear search"
+            >
+              ×
+            </button>
+          )}
         </div>
         <div className="relative">
           <FiFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -127,43 +192,79 @@ export default function QuickLinksPage() {
         </div>
       </div>
 
+      {/* Search Status */}
+      {(searchQuery || selectedCategory !== 'All') && (
+        <div className="mb-4 text-sm text-gray-600 dark:text-gray-400">
+          Showing {filteredLinks.length} result{filteredLinks.length !== 1 ? 's' : ''}
+          {selectedCategory !== 'All' ? ` in ${selectedCategory}` : ''}
+          {searchQuery ? ` for "${searchQuery}"` : ''}
+          {(searchQuery || selectedCategory !== 'All') && (
+            <button
+              onClick={handleClearSearch}
+              className="ml-2 text-blue-500 hover:text-blue-600 dark:hover:text-blue-400"
+            >
+              Clear filters
+            </button>
+          )}
+        </div>
+      )}
+
       {/* Links Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredLinks.map(link => (
-          <div
-            key={link.id}
-            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
-          >
-            <div className="p-6">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-2 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
-                  {getIconComponent(link.iconName)}
+      {filteredLinks.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredLinks.map(link => (
+            <div
+              key={link.id}
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+            >
+              <div className="p-6">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300">
+                    {getIconComponent(link.iconName)}
+                  </div>
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+                    {link.title}
+                  </h2>
                 </div>
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-                  {link.title}
-                </h2>
-              </div>
-              <p className="text-gray-700 dark:text-gray-300 mb-4 min-h-[60px]">
-                {link.description}
-              </p>
-              <div className="flex justify-between items-center">
-                <span className="px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
-                  {link.category}
-                </span>
-                <a
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors"
-                >
-                  <FiExternalLink />
-                  Visit
-                </a>
+                <p className="text-gray-700 dark:text-gray-300 mb-4 min-h-[60px]">
+                  {link.description}
+                </p>
+                <div className="flex justify-between items-center">
+                  <span className="px-3 py-1 rounded-full text-sm bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
+                    {link.category}
+                  </span>
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+                  >
+                    <FiExternalLink />
+                    Visit
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-8">
+          <p className="text-gray-600 dark:text-gray-400 text-lg">
+            No links found matching your search criteria.
+            {(searchQuery || selectedCategory !== 'All') && (
+              <span className="block mt-2">
+                Try adjusting your search terms or filters.
+                <button
+                  onClick={handleClearSearch}
+                  className="ml-2 text-blue-500 hover:text-blue-600 dark:hover:text-blue-400"
+                >
+                  Clear all filters
+                </button>
+              </span>
+            )}
+          </p>
+        </div>
+      )}
     </div>
   );
 } 
