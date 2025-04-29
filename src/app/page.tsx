@@ -1,81 +1,82 @@
 import Link from 'next/link';
+import '@/styles/typography.css';
 
 export default function HomePage() {
   return (
-    <div className="max-w-3xl mx-auto px-4 space-y-12">
-      <section className="space-y-6">
-        <h1 className="text-4xl font-bold">
+    <div className="container-narrow section-padding">
+      <section className="content-spacing">
+        <h1 className="heading-1">
           Hello! 👋
         </h1>
         
-        <p className="text-xl">
+        <p className="body-large">
           I'm Amit Chaubey, a Machine Learning Engineer specializing in Full Stack
           Development, Cloud Architecture, and AI Integration. I focus on building scalable web
           applications and implementing AI-powered solutions.
         </p>
 
-        <p className="text-lg">
+        <p className="body-base text-secondary">
           My mission is to create innovative solutions that bridge the gap between complex
           technologies and user-friendly applications, making technology more accessible to
           everyone.
         </p>
 
-        <p className="text-lg">
+        <p className="body-base text-secondary">
           Explore my{' '}
-          <a href="/posts" className="text-blue-600 hover:underline">
+          <Link href="/posts" className="link-primary">
             technical writings
-          </a>
+          </Link>
           , learn about my{' '}
-          <a href="/projects" className="text-blue-600 hover:underline">
+          <Link href="/projects" className="link-primary">
             projects
-          </a>
+          </Link>
           , or read more about my{' '}
-          <a href="/about" className="text-blue-600 hover:underline">
+          <Link href="/about" className="link-primary">
             professional journey
-          </a>
+          </Link>
           . 🚀
         </p>
 
-        <div className="space-y-4">
-          <h2 className="text-2xl font-bold">Connect with me:</h2>
+        <div className="content-spacing">
+          <h2 className="heading-3">Connect with me:</h2>
           <div className="flex gap-4">
-            <a href="https://github.com/amit-chaubey" className="text-gray-600 hover:text-black dark:text-gray-400 dark:hover:text-white">
+            <a href="https://github.com/amit-chaubey" className="link-secondary">
               GitHub
             </a>
-            <a href="https://huggingface.co/sweatSmile" className="text-gray-600 hover:text-black dark:text-gray-400 dark:hover:text-white">
+            <a href="https://huggingface.co/sweatSmile" className="link-secondary">
               Hugging Face
             </a>
-            <a href="https://linkedin.com/in/amit-choubey-51296960" className="text-gray-600 hover:text-black dark:text-gray-400 dark:hover:text-white">
+            <a href="https://linkedin.com/in/amit-choubey-51296960" className="link-secondary">
               LinkedIn
             </a>
-            <a href="mailto:amit.katyayana@gmail.com" className="text-gray-600 hover:text-black dark:text-gray-400 dark:hover:text-white">
+            <a href="mailto:amit.katyayana@gmail.com" className="link-secondary">
               Email
             </a>
           </div>
         </div>
       </section>
 
-      <section>
-        <h2 className="text-3xl font-bold mb-8">Featured Projects</h2>
-        <div className="space-y-8">
+      <section className="section-spacing">
+        <h2 className="heading-2">Featured Projects</h2>
+        <div className="content-spacing">
           <article>
-            <h3 className="text-lg font-normal">
-              <a href="#" className="text-blue-600 hover:underline">
+            <h3 className="heading-4 font-normal">
+              <a href="#" className="link-primary">
                 Wikipedia Learning Agent for SEND Children - watch this space 🚧
               </a>
             </h3>
-            <p className="text-gray-600 mt-1">
+            <p className="body-base text-secondary mt-2">
               An AI-powered educational assistant for children with Special Educational Needs and Disabilities (SEND).
             </p>
           </article>
 
           <article>
-            <h3 className="text-lg font-normal">
-              <a href="#" className="text-blue-600 hover:underline">
+            <h3 className="heading-4 font-normal">
+              <a href="#" className="link-primary">
                 Enterprise RAG Research Platform - watch this space 🚧
               </a>
             </h3>
-            <p className="text-gray-600 mt-1">
+            <p className="body-base text-secondary mt-2">
               Advanced Retrieval-Augmented Generation implementations for financial documents analysis.
             </p>
           </article>

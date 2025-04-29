@@ -1,7 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { FiDownload, FiExternalLink, FiFilter, FiSearch, FiBookOpen } from 'react-icons/fi';
+import '@/styles/typography.css';
+import { FiDownload, FiExternalLink, FiFilter, FiSearch, FiBookOpen, FiEye } from 'react-icons/fi';
 
 interface Paper {
   id: string;
@@ -70,28 +71,31 @@ export default function PapersPage() {
   });
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <h1 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white">Research Papers</h1>
-      <p className="mb-8 text-gray-600 dark:text-gray-300">Access, download, and explore essential ML/AI research papers</p>
+    <div className="container-default section-padding">
+      <div className="content-spacing">
+        <h1 className="heading-1">Research Papers</h1>
+        <p className="body-large text-secondary">
+          Access, download, and explore essential ML/AI research papers
+        </p>
+      </div>
 
-      {/* Search and Filter Bar */}
-      <div className="flex flex-col md:flex-row gap-4 mb-8">
-        <div className="relative flex-grow">
-          <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-          <input
-            type="text"
-            placeholder="Search papers..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
-        </div>
-        <div className="relative">
-          <FiFilter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+      <div className="content-spacing">
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="relative flex-grow">
+            <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search papers by title, abstract, or author..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="body-base w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            />
+          </div>
+          
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="pl-10 pr-8 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent appearance-none"
+            className="body-base px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
             {categories.map(category => (
               <option key={category} value={category}>{category}</option>
@@ -100,67 +104,61 @@ export default function PapersPage() {
         </div>
       </div>
 
-      {/* Papers Grid */}
-      <div className="grid grid-cols-1 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {filteredPapers.map(paper => (
-          <div
-            key={paper.id}
-            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
-          >
-            <div className="p-6">
-              <h2 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
-                {paper.title}
-              </h2>
-              <p className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                {paper.authors.join(', ')} • {paper.publishedDate}
-              </p>
-              <p className="text-gray-700 dark:text-gray-300 mb-4">
-                {paper.abstract}
-              </p>
-              <div className="flex flex-wrap gap-2 mb-4">
+          <article key={paper.id} className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+            <div className="content-spacing">
+              <div>
+                <h2 className="heading-3">{paper.title}</h2>
+                <p className="body-small text-secondary">
+                  {paper.authors.join(', ')} • {paper.publishedDate}
+                </p>
+              </div>
+
+              <p className="body-base text-secondary line-clamp-3">{paper.abstract}</p>
+
+              <div className="flex flex-wrap gap-2">
                 {paper.tags.map(tag => (
                   <span
                     key={tag}
-                    className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200"
+                    className="body-small px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
-              <div className="flex flex-wrap gap-3">
+
+              <div className="flex gap-4">
                 {paper.pdfUrl && (
                   <a
                     href={paper.pdfUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors"
+                    className="link-primary flex items-center gap-2"
                   >
-                    <FiDownload />
-                    Download from Source
+                    <FiDownload /> Download PDF
                   </a>
                 )}
                 {paper.localPdfPath && (
                   <a
                     href={paper.localPdfPath}
                     download
-                    className="flex items-center gap-2 px-4 py-2 rounded-lg bg-green-500 text-white hover:bg-green-600 transition-colors"
+                    className="link-primary flex items-center gap-2"
                   >
-                    <FiDownload />
-                    Local Download
+                    <FiDownload /> Local Download
                   </a>
                 )}
                 <a
                   href={paper.previewUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  className="link-primary flex items-center gap-2"
                 >
-                  <FiExternalLink />
-                  View Online
+                  <FiEye /> Preview
                 </a>
               </div>
             </div>
-          </div>
+          </article>
         ))}
       </div>
     </div>

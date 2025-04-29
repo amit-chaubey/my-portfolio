@@ -1,14 +1,14 @@
 'use client';
 
 import { ResourceTrack } from '@/components/resources/ResourceTrack';
+import '@/styles/typography.css';
 
 export default function ResourcesPage() {
   return (
-    <div className="container mx-auto px-4 py-8 max-w-5xl">
-      <h1 className="text-4xl font-bold mb-8">Learning Resources</h1>
+    <div className="container-default section-padding">
+      <h1 className="heading-1 mb-8">Learning Resources</h1>
       
-      <div className="space-y-16">
-
+      <div className="section-spacing">
         <ResourceTrack 
           title="Machine Learning" 
           description="Fundamentals, algorithms, and practical implementations"

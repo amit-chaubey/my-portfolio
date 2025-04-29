@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { FiBook, FiLink, FiZap } from 'react-icons/fi';
+import '@/styles/typography.css';
 
 interface Category {
   id: string;
@@ -39,17 +40,17 @@ export default function HubPage() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+    <div className="container-wide section-padding">
+      <div className="text-center content-spacing">
+        <h1 className="heading-1 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
           Learning Hub
         </h1>
-        <p className="text-lg text-gray-600 dark:text-gray-300">
+        <p className="body-large text-secondary">
           Discover, learn, and grow with our curated collection of resources
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
         {categories.map((category) => (
           <div
             key={category.id}
@@ -65,11 +66,11 @@ export default function HubPage() {
                     {category.icon}
                   </div>
                 </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+                <div className="card-padding">
+                  <h3 className="heading-4 mb-2 text-primary">
                     {category.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300">
+                  <p className="body-base text-secondary">
                     {category.description}
                   </p>
                 </div>
