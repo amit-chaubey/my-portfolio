@@ -40,17 +40,17 @@ export default function HomePage() {
         <div className="content-spacing">
           <h2 className="heading-3">Connect with me:</h2>
           <div className="flex gap-4">
-            <a href="https://github.com/amit-chaubey" className="link-secondary">
-              GitHub
+            <a href="https://github.com/amit-chaubey" className="link-secondary flex items-center gap-1">
+              <i className="fi fi-brands-github"></i> GitHub
             </a>
-            <a href="https://huggingface.co/sweatSmile" className="link-secondary">
-              Hugging Face
+            <a href="https://huggingface.co/sweatSmile" className="link-secondary flex items-center gap-1">
+              <i className="fi fi-brands-huggingface text-xl"></i> <span className="text-lg">😊</span> Hugging Face
             </a>
-            <a href="https://linkedin.com/in/amit-choubey-51296960" className="link-secondary">
-              LinkedIn
+            <a href="https://linkedin.com/in/amit-choubey-51296960" className="link-secondary flex items-center gap-1">
+              <i className="fi fi-brands-linkedin"></i> LinkedIn
             </a>
-            <a href="mailto:amit.katyayana@gmail.com" className="link-secondary">
-              Email
+            <a href="mailto:amit.katyayana@gmail.com" className="link-secondary flex items-center gap-1">
+              <i className="fi fi-rr-envelope"></i> Email
             </a>
           </div>
         </div>
