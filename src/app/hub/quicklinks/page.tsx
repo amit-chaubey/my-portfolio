@@ -61,6 +61,22 @@ const quickLinks: QuickLink[] = [
     category: 'Development',
     iconName: 'FiGithub'
   },
+  {
+    id: '7',
+    title: 'Vellum LLM Leaderboard',
+    description: 'Latest public benchmark performance for SOTA LLMs. Compare top models and benchmarks.',
+    url: 'https://www.vellum.ai/llm-leaderboard',
+    category: 'AI/ML',
+    iconName: 'FiBookOpen'
+  },
+  {
+    id: '8',
+    title: 'RunPod',
+    description: 'Train, fine-tune, and deploy AI models in the cloud. Affordable GPU compute for ML workloads.',
+    url: 'https://www.runpod.io/',
+    category: 'AI/ML',
+    iconName: 'FiDatabase'
+  },
 ];
 
 const categories = ['All', 'AI/ML', 'DevOps', 'Frontend', 'Development'];
