@@ -15,12 +15,11 @@ export function ChatBubble({ message }: ChatBubbleProps) {
       <div 
         className={`max-w-[80%] rounded-lg px-4 py-2 ${
           isUser 
-            ? 'bg-blue-600 text-white rounded-br-none' 
-            : 'bg-gray-100 text-gray-800 rounded-bl-none'
+            ? 'bg-orange-500 text-white rounded-br-none' 
+            : 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-bl-none'
         }`}
-      >
-        {message.content}
-      </div>
+        dangerouslySetInnerHTML={{ __html: message.content }}
+      />
     </div>
   );
 } 
