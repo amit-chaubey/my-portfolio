@@ -47,6 +47,15 @@ const projects: Project[] = [
     technologies: ["HTML5", "CSS3", "Vanilla JavaScript", "Local Storage"],
     gradientFrom: "from-emerald-400",
     gradientTo: "to-cyan-500"
+  },
+  {
+    title: "Churn Owl – Customer Churn Predictor",
+    description: "Churn Owl is an interactive machine learning web app that predicts customer churn for subscription-based businesses. Built with Python, scikit-learn, and Streamlit, it empowers business users to identify at-risk customers and take proactive retention actions.\n\nKey Features:\n- Real-time churn probability predictions based on customer demographics and service usage\n- Intuitive, modern web interface for easy data input and instant results\n- Visualizations of feature importance and model performance metrics\n- Actionable recommendations to reduce churn risk.",
+    liveUrl: "https://amit-churn-owl.streamlit.app/",
+    codeUrl: undefined,
+    technologies: ["Python", "scikit-learn", "pandas", "Streamlit", "matplotlib", "seaborn"],
+    gradientFrom: "from-yellow-400",
+    gradientTo: "to-orange-500"
   }
 ];
 
