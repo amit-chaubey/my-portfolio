@@ -27,7 +27,7 @@ const ResourceCard: React.FC<ResourceProps> = ({
 
   return (
     <Link href={link}>
-      <div className="border rounded-lg p-6 hover:shadow-md transition-shadow duration-200 bg-white dark:bg-gray-800 dark:border-gray-700">
+      <div className="border rounded-lg p-6 hover:shadow-xl hover:shadow-blue-200 hover:-translate-y-1 transition-all duration-200 bg-white dark:bg-gray-800 dark:border-gray-700 dark:hover:shadow-blue-900/40">
         <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">{title}</h3>
         <p className="text-gray-600 dark:text-gray-300 mb-4">{description}</p>
         

@@ -60,7 +60,7 @@ export default function HubPage() {
               href={`/hub/${category.id}`}
               className="block h-full"
             >
-              <div className="h-full rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="h-full rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl hover:shadow-blue-200 hover:-translate-y-1 dark:hover:shadow-blue-900/40 transition-all duration-200">
                 <div className={`h-32 bg-gradient-to-r ${category.color} flex items-center justify-center`}>
                   <div className="text-white group-hover:scale-110 transition-transform duration-300">
                     {category.icon}

@@ -29,7 +29,7 @@ export function ResourceTrack({ title, description, resources }: ResourceTrackPr
           <Link 
             key={index}
             href={resource.link}
-            className="block p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+            className="block p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl hover:shadow-blue-200 hover:-translate-y-1 dark:hover:shadow-blue-900/40 transition-all duration-200"
           >
             <article className="content-spacing">
               <div>

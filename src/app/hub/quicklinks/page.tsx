@@ -231,7 +231,7 @@ export default function QuickLinksPage() {
           {filteredLinks.map(link => (
             <div
               key={link.id}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl hover:shadow-blue-200 hover:-translate-y-1 dark:hover:shadow-blue-900/40 transition-all duration-200 overflow-hidden"
             >
               <div className="p-6">
                 <div className="flex items-center gap-3 mb-3">

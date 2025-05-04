@@ -11,7 +11,7 @@ interface PostCardProps {
 
 export default function PostCard({ slug, title, date, excerpt, tags }: PostCardProps) {
   return (
-    <article className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+    <article className="p-6 bg-white dark:bg-gray-800 rounded-lg shadow-sm hover:shadow-xl hover:shadow-blue-200 hover:-translate-y-1 dark:hover:shadow-blue-900/40 transition-all duration-200">
       <Link 
         href={`/posts/${slug}`}
         className="block space-y-4"

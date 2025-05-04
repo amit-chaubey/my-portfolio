@@ -144,7 +144,7 @@ export default function InteractivePage() {
         {filteredTutorials.map(tutorial => (
           <div
             key={tutorial.id}
-            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-100 dark:border-gray-700"
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl hover:shadow-blue-200 hover:-translate-y-1 dark:hover:shadow-blue-900/40 transition-all duration-200 overflow-hidden border border-gray-100 dark:border-gray-700"
           >
             <div className="p-6">
               <div className="flex items-center gap-3 mb-3">

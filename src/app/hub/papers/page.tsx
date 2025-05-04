@@ -106,7 +106,7 @@ export default function PapersPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {filteredPapers.map(paper => (
-          <article key={paper.id} className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg">
+          <article key={paper.id} className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl hover:shadow-blue-200 hover:-translate-y-1 dark:hover:shadow-blue-900/40 transition-all duration-200">
             <div className="content-spacing">
               <div>
                 <h2 className="heading-3">{paper.title}</h2>
