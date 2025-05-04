@@ -10,7 +10,7 @@ export default function HomePage() {
         </h1>
         
         <p className="body-large">
-          I'm Amit Chaubey, a Machine Learning Engineer specializing in Full Stack
+          I'm Amit Choubey, a Machine Learning Engineer specializing in Full Stack
           Development, Cloud Architecture, and AI Integration. I focus on building scalable web
           applications and implementing AI-powered solutions.
         </p>

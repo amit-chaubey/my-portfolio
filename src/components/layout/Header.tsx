@@ -12,7 +12,7 @@ export default function Header() {
       <div className="container flex h-14 max-w-screen-2xl items-center justify-between px-4">
         <div className="flex items-center">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="text-xl font-bold">Amit Chaubey</span>
+            <span className="text-xl font-bold">Amit Choubey</span>
           </Link>
         </div>
         
