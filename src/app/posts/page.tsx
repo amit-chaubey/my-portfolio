@@ -1,5 +1,5 @@
-"use client";
-import { useState, useEffect } from 'react';
+// "use client";
+// import { useState, useEffect } from 'react';
 import { getAllPosts } from '@/lib/posts';
 import PostCard from '@/components/blog/PostCard';
 
