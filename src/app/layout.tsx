@@ -9,8 +9,8 @@ import { ChatWidget } from '@/components/chat/ChatWidget';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Amit Chaubey - Portfolio',
-  description: 'Personal portfolio and blog of Amit Chaubey',
+  title: 'Amit Choubey - Portfolio',
+  description: 'Personal portfolio and blog of Amit Choubey',
 };
 
 export default function RootLayout({
