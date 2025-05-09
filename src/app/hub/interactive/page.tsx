@@ -58,6 +58,15 @@ const tutorials: InteractiveTutorial[] = [
     category: 'Machine Learning',
     difficulty: 'Beginner',
     iconName: 'FiActivity'
+  },
+  {
+    id: '6',
+    title: 'RunPod: Cloud GPUs for AI & ML',
+    description: 'Spin up GPU pods in seconds, train and deploy AI models, and scale ML inference with serverless infrastructure. Choose from 50+ templates or bring your own container. Powerful, cost-effective, and globally distributed.',
+    url: 'https://www.runpod.io/',
+    category: 'Machine Learning',
+    difficulty: 'Intermediate',
+    iconName: 'FiCpu'
   }
 ];
 
