@@ -22,7 +22,10 @@ export function Education() {
 
   return (
     <section className="space-y-6">
-      <h2 className="text-2xl font-bold">🎓 Education</h2>
+      <h2 className="text-2xl font-bold flex items-center gap-2">
+        <img src="/icons/education.gif" alt="Education" className="inline w-8 h-8" />
+        Education
+      </h2>
       <div className="space-y-8">
         {education.map((edu, index) => (
           <div key={index} className="space-y-2">
@@ -38,4 +41,4 @@ export function Education() {
       </div>
     </section>
   );
-} 
+}

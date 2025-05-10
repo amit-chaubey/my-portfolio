@@ -10,7 +10,10 @@ export function CurrentFocus() {
 
   return (
     <section className="space-y-6">
-      <h2 className="text-2xl font-bold">🧠 Current Focus</h2>
+      <h2 className="text-2xl font-bold flex items-center gap-2">
+        <img src="/icons/focus.gif" alt="Current Focus" className="inline w-8 h-8" />
+        Current Focus
+      </h2>
       <ul className="list-disc list-inside space-y-2 text-gray-700 dark:text-gray-300">
         {focuses.map((focus, index) => (
           <li key={index}>{focus}</li>
