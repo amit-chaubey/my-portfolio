@@ -10,35 +10,13 @@ interface PaperViewerProps {
     pdfUrl?: string;
     localPdfPath?: string;
     previewUrl: string;
+    explanation: string;
   };
   onClose: () => void;
 }
 
 export default function PaperViewer({ paper, onClose }: PaperViewerProps) {
-  const [activeTab, setActiveTab] = useState<'view' | 'discussion'>('view');
-  const [comment, setComment] = useState('');
-  const [comments, setComments] = useState<Array<{ id: string; text: string; author: string; timestamp: string }>>([
-    {
-      id: '1',
-      text: 'This paper introduced groundbreaking concepts in transformer architecture.',
-      author: 'John Doe',
-      timestamp: '2024-03-15T10:30:00Z'
-    }
-  ]);
-
-  const handleAddComment = () => {
-    if (!comment.trim()) return;
-    
-    const newComment = {
-      id: Date.now().toString(),
-      text: comment,
-      author: 'Anonymous', // In a real app, this would be the logged-in user
-      timestamp: new Date().toISOString()
-    };
-    
-    setComments([...comments, newComment]);
-    setComment('');
-  };
+  const [activeTab, setActiveTab] = useState<'view' | 'explanation'>('view');
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
@@ -61,10 +39,10 @@ export default function PaperViewer({ paper, onClose }: PaperViewerProps) {
             View Paper
           </button>
           <button
-            className={`px-4 py-2 ${activeTab === 'discussion' ? 'border-b-2 border-blue-500' : ''}`}
-            onClick={() => setActiveTab('discussion')}
+            className={`px-4 py-2 ${activeTab === 'explanation' ? 'border-b-2 border-blue-500' : ''}`}
+            onClick={() => setActiveTab('explanation')}
           >
-            Discussion
+            Explanation
           </button>
         </div>
 
@@ -116,36 +94,9 @@ export default function PaperViewer({ paper, onClose }: PaperViewerProps) {
               </div>
             </div>
           ) : (
-            <div className="space-y-6">
-              <div className="space-y-4">
-                {comments.map(comment => (
-                  <div key={comment.id} className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
-                    <div className="flex justify-between items-start mb-2">
-                      <span className="font-medium">{comment.author}</span>
-                      <span className="text-sm text-gray-500">
-                        {new Date(comment.timestamp).toLocaleDateString()}
-                      </span>
-                    </div>
-                    <p>{comment.text}</p>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-6">
-                <textarea
-                  value={comment}
-                  onChange={(e) => setComment(e.target.value)}
-                  placeholder="Add your comment..."
-                  className="w-full p-3 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
-                  rows={3}
-                />
-                <button
-                  onClick={handleAddComment}
-                  className="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center gap-2"
-                >
-                  <FiMessageSquare /> Add Comment
-                </button>
-              </div>
+            <div className="prose dark:prose-invert max-w-none">
+              <h3>Explanation</h3>
+              <p>{paper.explanation}</p>
             </div>
           )}
         </div>
