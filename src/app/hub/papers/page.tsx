@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import '@/styles/typography.css';
-import { FiDownload, FiExternalLink, FiFilter, FiSearch, FiBookOpen, FiEye } from 'react-icons/fi';
+import { FiFilter, FiSearch } from 'react-icons/fi';
+import PaperViewer from '@/components/papers/PaperViewer';
 
 interface Paper {
   id: string;
@@ -25,7 +26,7 @@ const papers: Paper[] = [
     abstract: 'The dominant sequence transduction models are based on complex recurrent or convolutional neural networks that include an encoder and a decoder. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely.',
     tags: ['NLP', 'Transformers', 'Deep Learning'],
     pdfUrl: 'https://arxiv.org/pdf/1706.03762.pdf',
-    localPdfPath: '/papers/attention-is-all-you-need.pdf',
+    localPdfPath: '/papers/attention-all-you-need.pdf',
     previewUrl: 'https://arxiv.org/abs/1706.03762',
     publishedDate: '2017-12-06',
     category: 'Natural Language Processing'
@@ -37,6 +38,7 @@ const papers: Paper[] = [
     abstract: 'We introduce a new language representation model called BERT, which stands for Bidirectional Encoder Representations from Transformers. Unlike recent language representation models, BERT is designed to pre-train deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context in all layers.',
     tags: ['NLP', 'BERT', 'Deep Learning', 'Pre-training'],
     pdfUrl: 'https://arxiv.org/pdf/1810.04805.pdf',
+    localPdfPath: '/papers/bert.pdf',
     previewUrl: 'https://arxiv.org/abs/1810.04805',
     publishedDate: '2018-10-11',
     category: 'Natural Language Processing'
@@ -48,6 +50,7 @@ const papers: Paper[] = [
     abstract: 'Deeper neural networks are more difficult to train. We present a residual learning framework to ease the training of networks that are substantially deeper than those used previously. We explicitly reformulate the layers as learning residual functions with reference to the layer inputs, instead of learning unreferenced functions.',
     tags: ['Computer Vision', 'ResNet', 'Deep Learning'],
     pdfUrl: 'https://arxiv.org/pdf/1512.03385.pdf',
+    localPdfPath: '/papers/deep-residual-learning.pdf',
     previewUrl: 'https://arxiv.org/abs/1512.03385',
     publishedDate: '2015-12-10',
     category: 'Computer Vision'
@@ -59,6 +62,7 @@ const categories = ['All', 'Natural Language Processing', 'Computer Vision', 'Re
 export default function PapersPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedPaper, setSelectedPaper] = useState<Paper | null>(null);
 
   const filteredPapers = papers.filter(paper => {
     const matchesSearch = paper.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -106,7 +110,11 @@ export default function PapersPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {filteredPapers.map(paper => (
-          <article key={paper.id} className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl hover:shadow-blue-200 hover:-translate-y-1 dark:hover:shadow-blue-900/40 transition-all duration-200">
+          <article 
+            key={paper.id} 
+            className="p-6 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl hover:shadow-blue-200 hover:-translate-y-1 dark:hover:shadow-blue-900/40 transition-all duration-200 cursor-pointer"
+            onClick={() => setSelectedPaper(paper)}
+          >
             <div className="content-spacing">
               <div>
                 <h2 className="heading-3">{paper.title}</h2>
@@ -127,40 +135,17 @@ export default function PapersPage() {
                   </span>
                 ))}
               </div>
-
-              <div className="flex gap-4">
-                {paper.pdfUrl && (
-                  <a
-                    href={paper.pdfUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="link-primary flex items-center gap-2"
-                  >
-                    <FiDownload /> Download PDF
-                  </a>
-                )}
-                {paper.localPdfPath && (
-                  <a
-                    href={paper.localPdfPath}
-                    download
-                    className="link-primary flex items-center gap-2"
-                  >
-                    <FiDownload /> Local Download
-                  </a>
-                )}
-                <a
-                  href={paper.previewUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="link-primary flex items-center gap-2"
-                >
-                  <FiEye /> Preview
-                </a>
-              </div>
             </div>
           </article>
         ))}
       </div>
+
+      {selectedPaper && (
+        <PaperViewer
+          paper={selectedPaper}
+          onClose={() => setSelectedPaper(null)}
+        />
+      )}
     </div>
   );
 } 
