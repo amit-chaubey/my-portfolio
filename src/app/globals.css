@@ -19,3 +19,13 @@
     @apply transition-colors duration-200;
   }
 }
+
+@layer utilities {
+  .animate-slideDown {
+    animation: slideDown 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+  @keyframes slideDown {
+    from { transform: translateY(-40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+}

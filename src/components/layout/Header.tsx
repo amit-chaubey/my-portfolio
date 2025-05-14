@@ -2,11 +2,37 @@
 import Link from 'next/link';
 import { ModeToggle } from '@/components/ModeToggle';
 import Search from '@/components/Search';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { FiMenu, FiX } from 'react-icons/fi';
+import { usePathname } from 'next/navigation';
 
 export default function Header() {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const pathname = usePathname();
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        mobileNavOpen &&
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node) &&
+        menuButtonRef.current &&
+        !menuButtonRef.current.contains(event.target as Node)
+      ) {
+        setMobileNavOpen(false);
+      }
+    }
+    if (mobileNavOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [mobileNavOpen]);
+
   return (
     <header className="sticky top-0 z-10 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 max-w-screen-2xl items-center justify-between px-4">
@@ -35,11 +61,12 @@ export default function Header() {
         </nav>
 
         <button
+          ref={menuButtonRef}
           className="md:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           aria-label="Open mobile menu"
-          onClick={() => setMobileNavOpen(true)}
+          onClick={() => setMobileNavOpen((open) => !open)}
         >
-          <FiMenu className="w-6 h-6" />
+          {mobileNavOpen ? <FiX className="w-6 h-6" /> : <FiMenu className="w-6 h-6" />}
         </button>
 
         <div className="flex items-center space-x-4">
@@ -47,24 +74,36 @@ export default function Header() {
           <ModeToggle />
         </div>
       </div>
+      {/* Mobile Dropdown Menu */}
       {mobileNavOpen && (
-        <div className="fixed inset-0 z-50 bg-white/95 dark:bg-gray-900/95 flex flex-col items-center justify-center transition-all">
-          <button
-            className="absolute top-6 right-6 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-            aria-label="Close mobile menu"
-            onClick={() => setMobileNavOpen(false)}
-          >
-            <FiX className="w-8 h-8" />
-          </button>
-          <nav className="flex flex-col gap-8 text-2xl font-semibold">
-            <Link href="/posts" onClick={() => setMobileNavOpen(false)} className="hover:text-blue-600">Posts</Link>
-            <Link href="/tags" onClick={() => setMobileNavOpen(false)} className="hover:text-blue-600">Tags</Link>
-            <Link href="/about" onClick={() => setMobileNavOpen(false)} className="hover:text-blue-600">About Me</Link>
-            <Link href="/resources" onClick={() => setMobileNavOpen(false)} className="hover:text-blue-600">Resources</Link>
-            <Link href="/hub" onClick={() => setMobileNavOpen(false)} className="hover:text-blue-600">Research Hub</Link>
+        <div
+          ref={menuRef}
+          className="absolute left-1/2 -translate-x-1/2 top-16 w-11/12 max-w-xs bg-white dark:bg-gray-900 rounded-xl shadow-2xl border border-gray-100 dark:border-gray-800 py-3 z-50 animate-slideDown max-h-[70vh] overflow-y-auto px-2"
+        >
+          <nav className="flex flex-col gap-1 text-base font-semibold text-black dark:text-white">
+            {[
+              { href: '/posts', label: 'Posts' },
+              { href: '/tags', label: 'Tags' },
+              { href: '/about', label: 'About Me' },
+              { href: '/resources', label: 'Resources' },
+              { href: '/hub', label: 'Research Hub' },
+            ].map(link => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileNavOpen(false)}
+                className={`py-3 rounded-lg text-center transition-colors duration-150 ${pathname === link.href ? 'bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-bold' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
+              >
+                {link.label}
+              </Link>
+            ))}
           </nav>
         </div>
       )}
     </header>
   );
 }
+
+// Add animation to globals.css or tailwind config:
+// .animate-slideDown { animation: slideDown 0.3s cubic-bezier(0.4,0,0.2,1); }
+// @keyframes slideDown { from { transform: translateY(-40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
