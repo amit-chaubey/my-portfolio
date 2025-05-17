@@ -78,6 +78,14 @@ const quickLinks: QuickLink[] = [
     iconName: 'FiDatabase'
   },
   {
+    id: '9',
+    title: 'CSRankings',
+    description: 'Metrics-based ranking of top computer science institutions worldwide. Use this to research and compare universities for CS research and grad school.',
+    url: 'https://csrankings.org/#/index?all&uk',
+    category: 'AI/ML',
+    iconName: 'FiBookOpen'
+  },
+  {
     id: '10',
     title: 'Git Flow Like a Pro',
     description: 'A comprehensive guide to mastering Git flow and professional GitHub collaboration. Learn best practices for branching, merging, and team workflows.',
