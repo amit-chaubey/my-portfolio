@@ -77,6 +77,14 @@ const quickLinks: QuickLink[] = [
     category: 'AI/ML',
     iconName: 'FiDatabase'
   },
+  {
+    id: '10',
+    title: 'Git Flow Like a Pro',
+    description: 'A comprehensive guide to mastering Git flow and professional GitHub collaboration. Learn best practices for branching, merging, and team workflows.',
+    url: 'https://pointed-name-caa.notion.site/Git-flow-like-a-pro-1a50e3a0a902803aacf4dba6225b33d5',
+    category: 'Development',
+    iconName: 'FiGithub'
+  },
 ];
 
 const categories = ['All', 'AI/ML', 'DevOps', 'Frontend', 'Development'];
