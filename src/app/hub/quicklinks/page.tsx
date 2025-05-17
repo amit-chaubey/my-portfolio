@@ -77,6 +77,14 @@ const quickLinks: QuickLink[] = [
     category: 'AI/ML',
     iconName: 'FiDatabase'
   },
+  {
+    id: '9',
+    title: 'CSRankings',
+    description: 'Metrics-based ranking of top computer science institutions worldwide. Use this to research and compare universities for CS research and grad school.',
+    url: 'https://csrankings.org/#/index?all&uk',
+    category: 'AI/ML',
+    iconName: 'FiBookOpen'
+  },
 ];
 
 const categories = ['All', 'AI/ML', 'DevOps', 'Frontend', 'Development'];
