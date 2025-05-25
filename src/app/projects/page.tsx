@@ -13,6 +13,14 @@ interface Project {
 
 const projects: Project[] = [
   {
+    title: "IMDB Movie Sentiment Analysis",
+    description: "A sentiment analysis project that uses MCP server to analyze movie reviews and predict sentiment. This project serves as a great starting point for learning MCP server implementation and natural language processing techniques.\n\nKey Features:\n- Real-time sentiment analysis of movie reviews\n- MCP server implementation for model serving\n- Interactive web interface for easy review submission\n- Sentiment visualization and analysis results",
+    liveUrl: "https://movie-mcp-server-amit.streamlit.app/",
+    technologies: ["Python", "Streamlit", "MCP Server", "NLP", "Sentiment Analysis"],
+    gradientFrom: "from-purple-500",
+    gradientTo: "to-pink-500"
+  },
+  {
     title: "SEND Schools Dashboard",
     description: "A real-time performance dashboard for SEND (Special Educational Needs and Disabilities) schools that transforms how educators track progress, celebrate achievements, and identify support needs. This platform brings personalized, data-driven insights to special education, enhancing student motivation and educational outcomes.",
     liveUrl: "https://school-student-dashboard.netlify.app/",
