@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '@/styles/typography.css';
 import { FiFilter, FiSearch } from 'react-icons/fi';
 import PaperViewer from '@/components/papers/PaperViewer';
@@ -108,12 +108,17 @@ In conclusion, "Deep Residual Learning for Image Recognition" provided a breakth
   }
 ];
 
-const categories = ['All', 'Natural Language Processing', 'Computer Vision', 'Reinforcement Learning'];
+const categories = ['All', 'Natural Language Processing', 'Computer Vision', 'Deep Learning', 'Reinforcement Learning'];
 
 export default function PapersPage() {
+  const [mounted, setMounted] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedPaper, setSelectedPaper] = useState<Paper | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const filteredPapers = papers.filter(paper => {
     const matchesSearch = paper.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -124,6 +129,26 @@ export default function PapersPage() {
     
     return matchesSearch && matchesCategory;
   });
+
+  // Format date to be consistent
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  if (!mounted) {
+    return (
+      <div className="container-default section-padding">
+        <div className="content-spacing">
+          <h1 className="heading-1">Research Papers</h1>
+          <p className="body-large text-secondary">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container-default section-padding">
@@ -170,7 +195,7 @@ export default function PapersPage() {
               <div>
                 <h2 className="heading-3">{paper.title}</h2>
                 <p className="body-small text-secondary">
-                  {paper.authors.join(', ')} • {paper.publishedDate}
+                  {paper.authors.join(', ')} • {formatDate(paper.publishedDate)}
                 </p>
               </div>
 
